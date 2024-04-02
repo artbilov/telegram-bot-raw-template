@@ -1,4 +1,6 @@
-import { Bot, InlineKeyboard } from "grammy";
+import { Bot, InlineKeyboard } from "grammy"
+import http from "http"
+
 
 // Set up webhook
 fetch(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/setWebhook?url=${process.env.WEBHOOK_URL}`)
@@ -6,7 +8,7 @@ fetch(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/setWebhook?url=${pro
   .then((res) => console.log(res))
 
 //Start server for webhook
-require('http').createServer((req, res) => res.end()).listen(process.env.PORT || 3000)
+http.createServer((req, res) => res.end()).listen(process.env.PORT || 3000)
 
 //Store bot screaming status
 let screaming = false
