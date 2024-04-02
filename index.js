@@ -1,20 +1,25 @@
-import { Bot, InlineKeyboard } from "grammy"
+import { Bot, InlineKeyboard, webhookCallback } from "grammy"
 import http from "http"
+import dotenv from "dotenv"
 
+dotenv.config()
 
 // Set up webhook
 fetch(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/setWebhook?url=${process.env.WEBHOOK_URL}`)
   .then((res) => res.json())
   .then((res) => console.log(res))
 
+
+
+//Create a new bot
+const bot = new Bot(process.env.BOT_TOKEN)
+
 //Start server for webhook
-http.createServer((req, res) => res.end()).listen(process.env.PORT || 3000)
+http.createServer(webhookCallback(bot, 'http')).listen(process.env.PORT || 3000)
 
 //Store bot screaming status
 let screaming = false
 
-//Create a new bot
-const bot = new Bot(process.env.BOT_TOKEN)
 
 //This function handles the /scream command
 bot.command("scream", () => {
@@ -88,4 +93,4 @@ bot.on("message", async (ctx) => {
 })
 
 //Start the Bot
-bot.start()
+// bot.start()
